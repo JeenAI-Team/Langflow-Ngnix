@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  # Gatekeeper proxy with JWT auth
+  proxy:
+    build: .
+    container_name: langflow-proxy
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - "8080:80"  # expose publicly; adjust as needed
+    depends_on:
+      - frontend
+      - backend
+
+  # LangFlow backend (API)
+  backend:
+    build:
+      context: ..                 # langflow/docker
+      dockerfile: build_and_push_backend.Dockerfile
+    container_name: langflow-backend
+    expose:
+      - "7860"
+
+  # LangFlow frontend (static build)
+  frontend:
+    build:
+      context: ../..              # langflow (repo root)
+      dockerfile: docker/frontend/build_and_push_frontend.Dockerfile
+    container_name: langflow-frontend
+    expose:
+      - "3000"
+    environment:
+      - BACKEND_URL=http://backend:7860
+      # Ensure frontend talks to backend via proxy hostname
+      - VITE_PROXY_TARGET=http://proxy:80/api 
