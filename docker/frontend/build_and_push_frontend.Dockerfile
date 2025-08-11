@@ -22,6 +22,12 @@ LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.url=https://github.com/langflow-ai/langflow
 LABEL org.opencontainers.image.source=https://github.com/langflow-ai/langflow
 
+# Install libxml2 and libxml2-dev
+USER root
+RUN apt-get update && \
+    apt-get install -y libxml2 libxml2-dev && \
+    rm -rf /var/lib/apt/lists/*
+    
 COPY --from=builder-base --chown=nginx /frontend/build /usr/share/nginx/html
 COPY --chown=nginx ./docker/frontend/start-nginx.sh /start-nginx.sh
 COPY --chown=nginx ./docker/frontend/default.conf.template /etc/nginx/conf.d/default.conf.template
