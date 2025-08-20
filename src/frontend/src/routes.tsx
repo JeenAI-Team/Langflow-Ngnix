@@ -86,24 +86,8 @@ const router = createBrowserRouter(
                     <Route path="files" element={<FilesPage />} />
                   )}
                   <Route path="flows/" element={<ForbiddenPage />} />
-                  <Route
-                    path="components/"
-                    element={<HomePage key="components" type="components" />}
-                  >
-                    <Route
-                      path="folder/:folderId"
-                      element={<HomePage key="components" type="components" />}
-                    />
-                  </Route>
-                  <Route
-                    path="all/"
-                    element={<HomePage key="flows" type="flows" />}
-                  >
-                    <Route
-                      path="folder/:folderId"
-                      element={<HomePage key="flows" type="flows" />}
-                    />
-                  </Route>
+                  <Route path="components/" element={<ForbiddenPage />} />
+                  <Route path="all/" element={<ForbiddenPage />} />
                   <Route
                     path="mcp/"
                     element={<HomePage key="mcp" type="mcp" />}
